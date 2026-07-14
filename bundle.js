@@ -1,5 +1,5 @@
 const DEFAULT_STATE = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   title: "Simulazione Preventivo 2026",
   scenario: {
     presidioHours: 20,
@@ -49,6 +49,7 @@ const DEFAULT_STATE = {
     { id: "portierato-techbau", label: "Portierato", amount: 0, note: "36.504,00 € rimossi", included: false, kind: "base" },
     { id: "derattizzazione", label: "Derattizzazione", amount: 16500, note: "Valutare se rimuovere per affidare il servizio a Global services", included: true, kind: "base" },
     { id: "varie-techbau", label: "Varie ed inconvenienti", amount: 0, note: "6.215,00 € rimossi", included: false, kind: "base" },
+    { id: "presidio-0", label: "Nessun presidio fisso", amount: 0, note: "", included: true, kind: "presidio", hours: 0 },
     { id: "presidio-20", label: "Presidio fisso 20 h", amount: 57500, note: "", included: true, kind: "presidio", hours: 20 },
     { id: "presidio-40", label: "Presidio fisso 40 h", amount: 115000, note: "", included: true, kind: "presidio", hours: 40 }
   ],
@@ -77,7 +78,7 @@ function calculateContract(state) {
     .filter(item => item.kind !== "presidio" && item.included)
     .reduce((sum, item) => sum + safeNumber(item.amount), 0);
 
-  const selectedHours = safeNumber(state.scenario?.presidioHours) || 20;
+  const selectedHours = safeNumber(state.scenario?.presidioHours);
   const selectedPresidio = items.find(item => item.kind === "presidio" && safeNumber(item.hours) === selectedHours);
   const presidio = selectedPresidio && selectedPresidio.included ? safeNumber(selectedPresidio.amount) : 0;
   const gross = base + presidio;
@@ -136,6 +137,19 @@ function normalizeState(input) {
   for (const key of ["generalExpenses", "serviceExpenses", "consumptionExpenses", "oneTimeExpenses", "contractItems", "units"]) {
     output[key] = Array.isArray(input[key]) ? input[key] : defaults[key];
   }
+
+  // Migrazione dei dati già salvati: aggiunge lo scenario "0 ore"
+  // senza cancellare o modificare le personalizzazioni esistenti.
+  const hasZeroHours = output.contractItems.some(
+    item => item.kind === "presidio" && safeNumber(item.hours) === 0
+  );
+  if (!hasZeroHours) {
+    const zeroHoursItem = defaults.contractItems.find(
+      item => item.kind === "presidio" && safeNumber(item.hours) === 0
+    );
+    if (zeroHoursItem) output.contractItems = [...output.contractItems, zeroHoursItem];
+  }
+  output.schemaVersion = defaults.schemaVersion;
 
   return output;
 }

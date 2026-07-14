@@ -1,18 +1,18 @@
-const CACHE_NAME = "preventivo-2026-v3";
+const CACHE_NAME = "preventivo-aurelia-2026-v5";
 const APP_FILES = [
   "./",
   "./index.html",
   "./styles.css",
-  "./bundle.js?v=3",
+  "./bundle.js?v=5",
   "./manifest.webmanifest",
+  "./logo-aurelia.png",
+  "./apple-touch-icon.png",
   "./icon-192.png",
   "./icon-512.png"
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
   self.skipWaiting();
 });
 

@@ -3,23 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#16324f">
+  <meta name="theme-color" content="#0d1d33">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Preventivo 2026">
+  <meta name="apple-mobile-web-app-title" content="Aurelia 2026">
   <meta name="description" content="Simulatore del preventivo condominiale 2026, installabile su iPhone e utilizzabile offline.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" href="icon-192.png">
   <link rel="stylesheet" href="styles.css">
-  <title>Simulazione Preventivo 2026</title>
+  <title>Condominio Aurelia — Preventivo 2026</title>
 </head>
 <body>
   <header class="app-header">
-    <div>
-      <p class="eyebrow">Preventivo condominiale</p>
-      <h1>Simulazione 2026</h1>
-      <p class="subtitle">Calcoli collegati, salvataggio sul dispositivo e uso offline.</p>
+    <div class="brand-block">
+      <img class="brand-logo" src="logo-aurelia.png" alt="Condominio Aurelia New Living">
+      <div class="brand-copy">
+        <p class="eyebrow">Preventivo condominiale</p>
+        <h1>Simulazione 2026</h1>
+        <p class="subtitle">Calcoli collegati, salvataggio sul dispositivo e uso offline.</p>
+      </div>
     </div>
     <button id="installButton" class="secondary hidden" type="button">Installa app</button>
   </header>
@@ -178,6 +181,6 @@
   </main>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script defer src="bundle.js?v=4"></script>
+  <script defer src="bundle.js?v=5"></script>
 </body>
 </html>
